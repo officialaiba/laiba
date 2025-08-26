@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -71,18 +71,119 @@
         .toggle-checkbox:checked + .toggle-label {
             background-color: #3B82F6;
         }
+        
+        .timeline-item:not(:last-child):after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 24px;
+            height: calc(100% - 24px);
+            width: 2px;
+            background: #3B82F6;
+        }
+
+        /* Gallery styles */
+        .gallery-item {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+        
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-nav button {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox-nav button:hover {
+            background: rgba(255,255,255,0.5);
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-darker text-gray-800 dark:text-gray-200 min-h-screen">
     <!-- Header/Navigation -->
     <header class="sticky top-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-md shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold gradient-text"> Laiba's Portfolio!</a>
+            <a href="#" class="text-2xl font-bold gradient-text">Laiba's Portfolio!</a>
             
             <nav class="hidden md:flex space-x-8">
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
+                <a href="#education" class="nav-link">Education</a>
                 <a href="#skills" class="nav-link">Skills</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </nav>
             
@@ -105,7 +206,9 @@
             <div class="px-2 pt-2 pb-4 space-y-1">
                 <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-700">Home</a>
                 <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-700">About</a>
+                <a href="#education" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-700">Education</a>
                 <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-700">Skills</a>
+                <a href="#gallery" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-700">Gallery</a>
                 <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-700">Contact</a>
             </div>
         </div>
@@ -122,8 +225,8 @@
                     Web Developer & Designer
                 </h2>
                 <p class="text-lg mb-8 text-gray-600 dark:text-gray-300 max-w-lg">
-                     I am a professional web designer. I create beautiful professional websites using best practice accessiblity.
-                     I enjoy turning complex problems into simple, beautiful and intuitive interface designs.
+                    I am a professional web designer. I create beautiful professional websites using best practice accessiblity.
+                    I enjoy turning complex problems into simple, beautiful and intuitive interface designs.
                 </p>
                 <div class="flex space-x-4">
                     <a href="#contact" class="bg-primary hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
@@ -134,15 +237,15 @@
                     </a>
                 </div>
             </div>
-           <div class="md:w-1/2 flex justify-center">
-                    <div class="relative">
-                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-slate-700 shadow-xl">
-                            <img src="rose.jpg" 
-                                 alt="Profile" class="w-full h-full object-cover">
-                        </div>
-                        <div class="absolute -bottom-4 -right-4 bg-slate-800 p-4 rounded-lg shadow-lg border border-slate-700">
-                            <p class="text-sm font-mono text-blue-400">1+ Years Experience</p>
-                        </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <div class="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-slate-700 shadow-xl">
+                        <img src="rose.jpg"
+                             alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-slate-800 p-4 rounded-lg shadow-lg border border-slate-700">
+                        <p class="text-sm font-mono text-blue-400">1+ Years Experience</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,10 +259,10 @@
                 <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
             </div>
             
-           <div class="flex flex-col md:flex-row items-center gap-12">
+            <div class="flex flex-col md:flex-row items-center gap-12">
                 <div class="md:w-1/2 fade-in">
-                    <img src="jack.jpg" 
-                         alt="About" 
+                    <img src="jack.jpg"
+                         alt="About"
                          class="rounded-xl shadow-2xl w-full h-auto">
                 </div>
                 
@@ -169,12 +272,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div class="flex items-center">
                             <div>
-                         <p>
-                             She is good looking, simple and caring girl. She is polite, cultured and family oriented girl.
-                            The most important thing in my life is religious beliefs, moral values & respect for elders. 
-                             I am a modern thinker but also believe in good values given by our ancestors.
-                             I love going on trips with friends, listening to classical music & watching the latest movies.
-                        </p>
+                                <p>
+                                    She is good looking, simple and caring girl. She is polite, cultured and family oriented girl.
+                                    The most important thing in my life is religious beliefs, moral values & respect for elders.
+                                    I am a modern thinker but also believe in good values given by our ancestors.
+                                    I love going on trips with friends, listening to classical music & watching the latest movies.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -182,12 +285,12 @@
                     <div class="mb-8">
                         <h4 class="text-xl font-bold mb-4">Languages</h4>
                         <div class="flex flex-wrap gap-2">
-                            <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">English </span>
-                            <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">Hindi </span>
-                            <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">Urdu </span>
+                            <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">English</span>
+                            <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">Hindi</span>
+                            <span class="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">Urdu</span>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h4 class="text-xl font-bold mb-4">Hobbies</h4>
                         <div class="flex flex-wrap gap-4">
@@ -215,7 +318,7 @@
                                 </div>
                                 <span>Gaming</span>
                             </div>
-                             <div class="flex items-center">
+                            <div class="flex items-center">
                                 <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-2">
                                     <i class="fa-solid fa-palette text-blue-500 text-sm"></i>
                                 </div>
@@ -223,11 +326,48 @@
                             </div>
                             <div class="flex items-center">
                                 <div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-2">
-                                     <i class="fa-solid fa-camera text-purple-500 text-sm"></i>
-                             </div>
+                                    <i class="fa-solid fa-camera text-purple-500 text-sm"></i>
+                                </div>
                                 <span>Photography</span>
                             </div>
-                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 bg-gray-50 dark:bg-darker">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">My <span class="gradient-text">Education</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
+            </div>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-8">
+                    <!-- Education Item 1 -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 rounded-full bg-primary border-4 border-blue-200 dark:border-blue-900/50"></div>
+                        <div class="bg-white dark:bg-dark rounded-xl shadow-lg p-6 card-hover">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                <h3 class="text-xl font-bold">Master of Science</h3>
+                                <span class="text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full">2023 - 2024</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300 mb-2">Vbspu University, Jaunpur</p>
+                     </div>
+                    </div>
+                    
+                    <!-- Education Item 2 -->
+                    <div class="relative timeline-item pl-8">
+                        <div class="absolute left-0 top-0 w-4 h-4 rounded-full bg-primary border-4 border-blue-200 dark:border-blue-900/50"></div>
+                        <div class="bg-white dark:bg-dark rounded-xl shadow-lg p-6 card-hover">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                <h3 class="text-xl font-bold">Bachelor of Science</h3>
+                                <span class="text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full">2022 - 2023</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300 mb-2">Vbspu University, Jaunpur</p>
                         </div>
                     </div>
                 </div>
@@ -236,14 +376,87 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-20 bg-gray-50 dark:bg-darker">
+    <section id="skills" class="py-20 bg-white dark:bg-dark">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">My <span class="gradient-text">Skills</span></h2>
                 <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- Left Side - Pictures -->
+                <div class="lg:w-1/2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="rounded-xl overflow-hidden shadow-lg">
+                            <img src="code.jpg"
+                                 alt="Web Development"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-xl overflow-hidden shadow-lg">
+                            <img src="codes.jpg"
+                                 alt="Design"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-xl overflow-hidden shadow-lg">
+                            <img src="codee.jpg"
+                                 alt="Programming"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-xl overflow-hidden shadow-lg">
+                            <img src="codess.jpg"
+                                 alt="Teamwork"
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Box with Paragraphs -->
+                <div class="lg:w-1/2">
+                    <div class="bg-white dark:bg-dark rounded-xl shadow-lg p-8 h-full">
+                        <h3 class="text-2xl font-bold mb-6">My Skills Overview</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2 text-primary">Introduction</h4>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                     My name is Laiba and I am doing O Level course from Paradise Computer Institute.  
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2 text-purple-500">Continuous Learning</h4>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                    This is my, Laiba's Portfolio Website. In this website, you will acknowledge the abilities I have learned 
+                                   throught my O level course this semester. My Portfolio includes: an My Skills page,
+                                   Html, CSS, JavaScript and Python.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2 text-blue-400">Technical Expertise</h4>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                    With expertise in HTML, CSS, and JavaScript, I create responsive and interactive web applications. 
+                                    My proficiency in frameworks like Angular and libraries like React allows me to build dynamic user interfaces.    
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-xl font-semibold mb-2 text-green-500">Design Skills</h4>
+                                <p class="text-gray-600 dark:text-gray-300">
+                                  I create beautiful, responsive websites with modern technologies.
+                                    A responsive portfolio website built with HTML, CSS, and JavaScript.
+                                </p>
+                            </div>
+                            
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Skills Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
                 <!-- Technical Skills -->
                 <div class="bg-white dark:bg-dark rounded-xl shadow-lg p-6 card-hover">
                     <div class="flex items-center mb-6">
@@ -303,7 +516,7 @@
                     <div class="space-y-4">
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="font-medium">Computer Skills</span>
+                                <span class="font-medium">Water Colour</span>
                                 <span class="text-gray-500 dark:text-gray-400">90%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -313,7 +526,7 @@
                         <div>
                             <div class="flex justify-between mb-1">
                                 <span class="font-medium">Graphics</span>
-                                <span class="text-gray-500 dark:text-gray-400">85%</span>
+                                <span class="text-gray-500 dark:text-gray-400">95%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                                 <div class="bg-purple-500 h-2 rounded-full" style="width: 85%"></div>
@@ -322,7 +535,7 @@
                         <div>
                             <div class="flex justify-between mb-1">
                                 <span class="font-medium">Editing</span>
-                                <span class="text-gray-500 dark:text-gray-400">95%</span>
+                                <span class="text-gray-500 dark:text-gray-400">100%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                                 <div class="bg-purple-500 h-2 rounded-full" style="width: 95%"></div>
@@ -330,7 +543,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between mb-1">
-                                <span class="font-medium">Leadership</span>
+                                <span class="font-medium">Skeching and Drawing</span>
                                 <span class="text-gray-500 dark:text-gray-400">88%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -366,12 +579,12 @@
                             <span>MongoDB</span>
                         </span>
                         <span class="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center">
-                            <i class="fab fa-npm text-red-500 mr-2"></i>
-                            <span>npm</span>
+                            <i class="fa-brands fa-python text-red-500 mr-2"></i>
+                            <span>Python</span>
                         </span>
                         <span class="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center">
-                            <i class="fab fa-sass text-pink-500 mr-2"></i>
-                            <span>Sass</span>
+                            <i class="fa-brands fa-js text-pink-500 mr-2"></i>
+                            <span>JavaScript</span>
                         </span>
                         <span class="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center">
                             <i class="fab fa-bootstrap text-purple-600 mr-2"></i>
@@ -387,6 +600,147 @@
         </div>
     </section>
 
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-gray-50 dark:bg-darker">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">My <span class="gradient-text">Gallery</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
+                <p class="text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
+                    A collection of my favorite moments, artworks, and projects that showcase my creativity and passion.
+                </p>
+            </div>
+
+            <!-- Gallery Filter -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" class="gallery-filter px-4 py-2 text-sm font-medium rounded-l-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700" data-filter="all">
+                        All
+                    </button>
+                    <button type="button" class="gallery-filter px-4 py-2 text-sm font-medium border-t border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700" data-filter="art">
+                        Art
+                    </button>
+                    <button type="button" class="gallery-filter px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700" data-filter="photography">
+                        Photography
+                    </button>
+                    <button type="button" class="gallery-filter px-4 py-2 text-sm font-medium rounded-r-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700" data-filter="projects">
+                        Projects
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item art relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="filee.jpg" 
+                         alt="Artwork 1" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Watercolor Painting</h3>
+                        <p class="text-sm">Drawing of a simple village landscape with a small beautiful house</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item photography relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="green.jpg" 
+                         alt="Photography 1" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Nature Photography</h3>
+                        <p class="text-sm">Capturing the beauty of nature</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item projects relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="dream.jpg" 
+                         alt="Project 1" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Project Work</h3>
+                        <p class="text-sm">Aesthetic Workspace</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item art relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="frog.jpg" 
+                         alt="Artwork 2" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Frog Watercolor Painting</h3>
+                        <p class="text-sm">Kids friendly drawing, easy sketch ideas for animals</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item photography relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="moon.jpg" 
+                         alt="Photography 2" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Nature Photography</h3>
+                        <p class="text-sm">Aesthetic on point</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item projects relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="book.jpg" 
+                         alt="Project 2" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Project Work</h3>
+                        <p class="text-sm">The mobile Trading & Luxury Lifestyle</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 7 -->
+                <div class="gallery-item art relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="tulips.jpg" 
+                         alt="Artwork 3" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Watercolor Painting</h3>
+                        <p class="text-sm">Beautiful tulips</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 8 -->
+                <div class="gallery-item photography relative rounded-xl overflow-hidden shadow-lg h-64">
+                    <img src="pink.jpg" 
+                         alt="Photography 3" 
+                         class="w-full h-full object-cover">
+                    <div class="gallery-overlay">
+                        <h3 class="font-bold text-lg">Nature Photography</h3>
+                        <p class="text-sm">It is beautiful</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View More Button -->
+            <div class="text-center mt-12">
+                <button class="px-6 py-3 bg-primary hover:bg-blue-600 text-white rounded-lg font-medium transition duration-300">
+                    View More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="">
+        </div>
+        <div class="lightbox-nav">
+            <button id="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button id="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-white dark:bg-dark">
         <div class="container mx-auto px-4">
@@ -398,7 +752,6 @@
             <div class="flex flex-col lg:flex-row gap-12">
                 <div class="lg:w-1/2">
                     <h3 class="text-2xl font-bold mb-6">Contact Information</h3>
-            
                     
                     <div class="space-y-6">
                         <div class="flex items-start">
@@ -447,6 +800,9 @@
                             <a href="#" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900/30 transition">
                                 <i class="fab fa-instagram text-purple-600"></i>
                             </a>
+                           <a href="#" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900/30 transition">
+                                <i class="fa-brands fa-youtube text-gray-700 dark:text-gray-300"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -490,7 +846,9 @@
                 <div class="flex space-x-6">
                     <a href="#home" class="text-gray-600 dark:text-gray-300 hover:text-primary">Home</a>
                     <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-primary">About</a>
+                    <a href="#education" class="text-gray-600 dark:text-gray-300 hover:text-primary">Education</a>
                     <a href="#skills" class="text-gray-600 dark:text-gray-300 hover:text-primary">Skills</a>
+                    <a href="#gallery" class="text-gray-600 dark:text-gray-300 hover:text-primary">Gallery</a>
                     <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-primary">Contact</a>
                 </div>
             </div>
@@ -507,7 +865,7 @@
         
         // Check for saved user preference or use system preference
         if (localStorage.getItem('darkMode') === 'true' || 
-            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.add('dark');
             toggle.checked = true;
         }
@@ -561,7 +919,87 @@
                 header.classList.remove('shadow-lg');
             }
         });
+
+        // Gallery Filter Functionality
+        const galleryFilters = document.querySelectorAll('.gallery-filter');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        galleryFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                // Remove active class from all filters
+                galleryFilters.forEach(f => f.classList.remove('bg-primary', 'text-white'));
+                
+                // Add active class to clicked filter
+                this.classList.add('bg-primary', 'text-white');
+                
+                const filterValue = this.getAttribute('data-filter');
+                
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox Functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-image');
+        const closeLightbox = document.querySelector('.close-lightbox');
+        const galleryImages = document.querySelectorAll('.gallery-item img');
+        let currentImageIndex = 0;
+        const imagesArray = Array.from(galleryImages).map(img => img.src);
+        
+        // Open lightbox when clicking on gallery images
+        galleryImages.forEach((img, index) => {
+            img.addEventListener('click', function() {
+                currentImageIndex = index;
+                lightbox.style.display = 'flex';
+                lightboxImg.src = this.src;
+            });
+        });
+        
+        // Close lightbox
+        closeLightbox.addEventListener('click', function() {
+            lightbox.style.display = 'none';
+        });
+        
+        // Close when clicking outside the image
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+        
+        // Navigation between images
+        document.getElementById('prev-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex - 1 + imagesArray.length) % imagesArray.length;
+            lightboxImg.src = imagesArray[currentImageIndex];
+        });
+        
+        document.getElementById('next-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentImageIndex = (currentImageIndex + 1) % imagesArray.length;
+            lightboxImg.src = imagesArray[currentImageIndex];
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') {
+                    lightbox.style.display = 'none';
+                } else if (e.key === 'ArrowLeft') {
+                    currentImageIndex = (currentImageIndex - 1 + imagesArray.length) % imagesArray.length;
+                    lightboxImg.src = imagesArray[currentImageIndex];
+                } else if (e.key === 'ArrowRight') {
+                    currentImageIndex = (currentImageIndex + 1) % imagesArray.length;
+                    lightboxImg.src = imagesArray[currentImageIndex];
+                }
+            }
+        });
     </script>
 </body>
 </html>
-
